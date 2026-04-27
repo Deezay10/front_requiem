@@ -4,7 +4,8 @@ import { Connexion } from './pages/connexion/connexion';
 import { Inventaire } from './pages/inventaire/inventaire';
 
 export const routes: Routes = [
-  { path: 'accueil', component: Accueil },
+  { path: 'home', component: Accueil },
+  { path: 'inscription', component: Inscription },
   { path: 'connexion', component: Connexion },
   { path: 'inventaire', component: Inventaire },
 ];

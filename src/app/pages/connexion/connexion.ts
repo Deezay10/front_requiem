@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { NgStyle } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-connexion',
-  //imports: [NgStyle, RouterLink],
+  imports: [FormsModule, HttpClientModule],
   templateUrl: './connexion.html',
   styleUrl: './connexion.scss',
 })
 export class Connexion {
-}
+  email: string = '';
+  password: string = '';
+  message: string = '';
+
+  }

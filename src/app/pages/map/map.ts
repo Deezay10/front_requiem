@@ -22,7 +22,7 @@ export class Map {
 
     this.adresse = this.adresseFormatee;
 
-  this.link = this.sanitizer.bypassSecurityTrustResourceUrl("https://maps.google.com/maps?q=" + this.adresse + "&output=embed");
+  this.link = this.sanitizer.bypassSecurityTrustResourceUrl("https://maps.google.com/maps?q=" + this.adresse + "&t=k&output=embed");
 
   }
 }

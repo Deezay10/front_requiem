@@ -7,7 +7,7 @@
 
             <h3 class="uk-card-title uk-text-center">Create your account</h3>
 
-            <form #form="ngForm">
+            <form (ngSubmit)="sendFormData()" #form="ngForm">
 
               <!-- Email -->
               <div class="uk-margin">

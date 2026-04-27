@@ -24,4 +24,17 @@ export class Inscription {
   public user: User = new User();
   public message: string = '';
   public passwordMismatch: boolean = false;
+
+  sendFormData() {
+    const pwd = (this.user.password || '').trim();
+    const pwdConfirm = (this.user.passwordConfirm || '').trim();
+
+    if (pwd !== pwdConfirm) {
+      this.passwordMismatch = true;
+      this.message = 'Les mots de passe ne correspondent pas.';
+      return;
+    }
+
+    this.passwordMismatch = false;
+  }
 }

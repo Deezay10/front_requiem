@@ -11,18 +11,35 @@
   <div class="uk-container uk-container-expand">
     <nav class="uk-navbar-container" id="navbar" uk-navbar>
 
-
-      <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo" href="home">Home</a>
+      <!-- Gauche -->
+      <div class="uk-navbar-left">
+        <div></div>
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="inventory">
+              <span uk-icon="bag"></span> Mes plantes
+            </a>
+          </li>
+          <li>
+            <a href="map">
+              <span uk-icon="location"></span> Maps
+            </a>
+          </li>
+        </ul>
       </div>
 
+      <!-- Centre -->
+      <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo" href="home"><span uk-icon="home"></span>Accueil</a>
+      </div>
 
+      <!-- Droite -->
       <div class="uk-navbar-right">
         <div class="log uk-navbar-item uk-visible@s">
-
-          <a class="uk-button uk-button-text uk-margin-right" href="inscription">Sign In</a>
+          <a class="uk-button uk-button-text uk-margin-right" href="inscription">Sign in</a>
           <a class="uk-button uk-button-primary" href="connexion">Log In</a>
         </div>
+        <div></div>
       </div>
     </nav>
   </div>

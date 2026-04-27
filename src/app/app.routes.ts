@@ -10,5 +10,5 @@ export const routes: Routes = [
   { path: 'inscription', component: Inscription },
   { path: 'connexion', component: Connexion },
   { path: 'inventaire', component: Inventaire },
-  {path: 'map', component: Map },
+  { path: 'map', component: Map },
 ];

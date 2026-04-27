@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-accueil',
-  imports: [NgStyle, RouterLink],
+  //imports: [NgStyle, RouterLink],
   templateUrl: './accueil.html',
-  styleUrl: './accueil.css',
+  styleUrl: './accueil.scss',
 })
 export class Accueil {
 }

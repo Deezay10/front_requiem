@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar Centrée</title>
-  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="app.scss">
 </head>
 <body>
 
-<header>
-  <div class="container">
-    <nav class="navbar-container">
+<header class="uk-section-default uk-padding-remove-vertical">
+  <div class="uk-container uk-container-expand">
+    <nav class="uk-navbar-container" id="navbar" uk-navbar>
 
-      <div class="navbar-center">
-        <a class="navbar-item" href="acceuil">acceuil</a>
+
+      <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo" href="home">Home</a>
       </div>
 
-      <div class="navbar-right">
-        <div class="log navbar-item">
-          <a class="btn-text" href="inscription">Sign In</a>
-          <a class="btn-primary" href="connexion">Log In</a>
+
+      <div class="uk-navbar-right">
+        <div class="log uk-navbar-item uk-visible@s">
+
+          <a class="uk-button uk-button-text uk-margin-right" href="inscription">Sign In</a>
+          <a class="uk-button uk-button-primary" href="connexion">Log In</a>
         </div>
       </div>
-
     </nav>
   </div>
 </header>
-
 <router-outlet></router-outlet>
 
 </body>

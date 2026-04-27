@@ -4,10 +4,10 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-accueil',
+  selector: 'app-inventaire',
   //imports: [NgStyle, RouterLink],
-  templateUrl: './accueil.html',
-  styleUrl: './accueil.scss',
+  templateUrl: './inventaire.html',
+  styleUrl: './inventaire.scss',
 })
-export class Accueil {
+export class Inventaire {
 }

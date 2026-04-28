@@ -17,7 +17,7 @@
                 </div>
               </div>
 
-              <!-- Password -->
+              <!-- Mot de passe -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
@@ -25,7 +25,7 @@
                 </div>
               </div>
 
-              <!-- Confirm Password -->
+              <!-- Confirmation du Mot de passe -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
@@ -35,31 +35,31 @@
                 <p *ngIf="passwordMismatch" class="uk-text-danger uk-text-small uk-margin-small-top">{{ message }}</p>
               </div>
 
-              <!-- Pseudo -->
+              <!-- Nom -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="user"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.pseudo" name="pseudo" type="text" placeholder="Pseudo">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.pseudo" name="pseudo" type="text" placeholder="Nom">
                 </div>
               </div>
 
-              <!-- Citycode -->
+              <!-- Prénom -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="location"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="citycode" type="number" placeholder="Adresse">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="citycode" type="number" placeholder="Prénom">
                 </div>
               </div>
 
-              <!-- City -->
+              <!-- Adresse -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="home"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="city" type="text" placeholder="Ville">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="city" type="text" placeholder="Adresse">
                 </div>
               </div>
 
-              <!-- Phone -->
+              <!-- Mobile -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="receiver"></span>
@@ -67,7 +67,7 @@
                 </div>
               </div>
 
-              <!-- Submit -->
+              <!-- Envoyer -->
               <div class="uk-margin">
                 <button
                   type="submit"

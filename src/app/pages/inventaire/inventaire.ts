@@ -25,7 +25,7 @@ export class Inventaire implements OnInit {
       "besoin_eau": "eleve",
       "ensoleillement": "fort",
       "rendement_moyen_kg_m2": 8,
-      "imgPath": "https://jardinsdevartan.com/wp-content/uploads/2016/03/courgette-verte-jardins-de-vartan.jpg"
+      "image_url": "https://jardinsdevartan.com/wp-content/uploads/2016/03/courgette-verte-jardins-de-vartan.jpg"
     },
     {
       "id": 8,
@@ -39,7 +39,7 @@ export class Inventaire implements OnInit {
       "besoin_eau": "moyen",
       "ensoleillement": "fort",
       "rendement_moyen_kg_m2": 4,
-      "imgPath": "https://www.cnertrading.fr/1259-home_default/No.jpg"
+      "image_url": "https://www.cnertrading.fr/1259-home_default/No.jpg"
     },
     {
       "id": 6,
@@ -52,7 +52,7 @@ export class Inventaire implements OnInit {
       "besoin_eau": "moyen",
       "ensoleillement": "faible",
       "rendement_moyen_kg_m2": 2.5,
-      "imgPath": "https://www.cnertrading.fr/1244-home_default/epinard-branche-1x-1kg-fr.jpg"
+      "image_url": "https://www.cnertrading.fr/1244-home_default/epinard-branche-1x-1kg-fr.jpg"
     }
   ]
   public liste_saison: { [key: string]: string } = {};

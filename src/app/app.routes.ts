@@ -11,5 +11,6 @@ export const routes: Routes = [
   { path: 'inscription', component: Inscription },
   { path: 'connexion', component: Connexion },
   { path: 'inventaire', component: Inventaire },
-  { path: 'MdpOublie', component: MdpOublie }
+  { path: 'MdpOublie', component: MdpOublie },
+  { path: 'map', component: Map }
 ];

@@ -7,22 +7,45 @@
   <title>Accueil</title>
 
 
-  <script type="text/javascript">
-    //---- Resonoon widget code ----
-    (function(r,e,s,o,c,h,a,t) {
-      r[c]=r[c]||function(){(r[c].a=r[c].a||[]).push(arguments)};
-      t=e.createElement(s),a=e.getElementsByTagName(s)[0],t.async=1,t.src=o,a.parentNode.insertBefore(t,a)
-    })(window,document,"script","https://resonoon.com/chat/js_chat.min.js?v="+new Date(Date.now()).setSeconds(0,0),"reso");
-    reso("mGQ51ChYoSAtfjBhyNvEmn9yN3csAa", "init");
-    //---- End Resonoon widget code ----
-  </script>
 
 
 </head>
+
+
+
+
+
+
+
+
+
+
+
 <!-- Corps de la page -->
 <body>
 <h1>Accueil</h1>
 <p>Ceci est l'accueil</p>
-<p>effectivement</p>
+<p>effectivement 4</p>
+
+
+
+<!-- 1. Load the Featurebase SDK -->
+<script>!(function(e,t){var a="featurebase-sdk";function n(){if(!t.getElementById(a)){var e=t.createElement("script");(e.id=a),(e.src="https://do.featurebase.app/js/sdk.js"),t.getElementsByTagName("script")[0].parentNode.insertBefore(e,t.getElementsByTagName("script")[0])}};"function"!=typeof e.Featurebase&&(e.Featurebase=function(){(e.Featurebase.q=e.Featurebase.q||[]).push(arguments)}),"complete"===t.readyState||"interactive"===t.readyState?n():t.addEventListener("DOMContentLoaded",n)})(window,document);</script>
+
+<!-- 2. Boot Featurebase with your messenger config -->
+<script>
+  Featurebase("boot", {
+    appId: "YOUR_APP_ID_HERE",         // required
+    email: "user@example.com",         // optional, requires secure installation by default
+    userId: "12345",                   // optional, requires secure installation by default
+    createdAt: "2025-05-06T12:00:00Z", // optional
+    theme: "light",                    // "light" or "dark"
+    language: "en",                     // short code (e.g. "en", "de", etc.)
+    // Hide the launcher button entirely
+    // For custom launcher button implementation
+    // hideDefaultLauncher: true // optional
+  });
+</script>
+
 </body>
 </html>

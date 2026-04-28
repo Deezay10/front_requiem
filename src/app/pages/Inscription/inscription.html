@@ -5,7 +5,7 @@
         <div class="uk-width-1-1@m">
           <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
 
-            <h3 class="uk-card-title uk-text-center">Create your account</h3>
+            <h3 class="uk-card-title uk-text-center">Créez votre compte</h3>
 
             <form (ngSubmit)="sendFormData()" #form="ngForm">
 
@@ -21,7 +21,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.password" name="password" type="password" placeholder="Password" required>
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.password" name="password" type="password" placeholder="Mot de passe" required>
                 </div>
               </div>
 
@@ -29,7 +29,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.passwordConfirm" name="passwordconfirm" type="password" placeholder="Confirm Password" required>
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.passwordConfirm" name="passwordconfirm" type="password" placeholder="Confirmation du mot de passe" required>
                 </div>
                 <!-- Message d'erreur juste sous le champ -->
                 <p *ngIf="passwordMismatch" class="uk-text-danger uk-text-small uk-margin-small-top">{{ message }}</p>
@@ -47,7 +47,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="location"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="citycode" type="number" placeholder="City Code">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="citycode" type="number" placeholder="Adresse">
                 </div>
               </div>
 
@@ -55,7 +55,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="home"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="city" type="text" placeholder="City">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="city" type="text" placeholder="Ville">
                 </div>
               </div>
 
@@ -63,7 +63,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="receiver"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.phone" name="phone" type="number" placeholder="Phone Number">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.phone" name="phone" type="number" placeholder="Mobile">
                 </div>
               </div>
 
@@ -72,12 +72,12 @@
                 <button
                   type="submit"
                   class="uk-button uk-button-primary uk-button-large uk-width-1-1">
-                  Register
+                  S'inscrire
                 </button>
               </div>
 
               <div class="uk-text-small uk-text-center">
-                Already have an account? <a class="uk-link" href="connexion">Login</a>
+                Vous avez déjà un compte ? <a class="uk-link" href="connexion">Connectez-vous</a>
               </div>
 
             </form>

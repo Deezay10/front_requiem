@@ -21,7 +21,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.password" name="password" type="password" placeholder="Mot de passe" required>
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.password" name="motDePasse" type="password" placeholder="Mot de passe" required>
                 </div>
               </div>
 
@@ -29,7 +29,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="lock"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.passwordConfirm" name="passwordconfirm" type="password" placeholder="Confirmation du mot de passe" required>
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.passwordConfirm" name="confirmationMotDePasse" type="password" placeholder="Confirmation du mot de passe" required>
                 </div>
                 <!-- Message d'erreur juste sous le champ -->
                 <p *ngIf="passwordMismatch" class="uk-text-danger uk-text-small uk-margin-small-top">{{ message }}</p>
@@ -39,15 +39,15 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="user"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.pseudo" name="pseudo" type="text" placeholder="Nom">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.pseudo" name="Nom" type="text" placeholder="Nom">
                 </div>
               </div>
 
               <!-- Prénom -->
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
-                  <span class="uk-form-icon" uk-icon="location"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="citycode" type="number" placeholder="Prénom">
+                  <span class="uk-form-icon" uk-icon="user"></span>
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.cityCode" name="Prénom" type="text" placeholder="Prénom">
                 </div>
               </div>
 
@@ -55,7 +55,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="home"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="city" type="text" placeholder="Adresse">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.city" name="Adresse" type="text" placeholder="Adresse">
                 </div>
               </div>
 
@@ -63,7 +63,7 @@
               <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
                   <span class="uk-form-icon" uk-icon="receiver"></span>
-                  <input class="uk-input uk-form-large" [(ngModel)]="user.phone" name="phone" type="number" placeholder="Mobile">
+                  <input class="uk-input uk-form-large" [(ngModel)]="user.phone" name="Mobile" type="number" placeholder="Mobile">
                 </div>
               </div>
 

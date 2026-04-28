@@ -12,7 +12,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class Map {
 
-  public adresse = "6 rue du moulin de la halveque Nantes";
+  public adresse = "6 rue du moulin de la halveque Nante";
   public adresseFormatee: string = "";
   public link: SafeResourceUrl = "";
 

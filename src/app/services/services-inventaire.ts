@@ -10,5 +10,5 @@ export interface Legume {
   besoin_eau: string,
   ensoleillement: string,
   rendement_moyen_kg_m2: bigint,
-  imgPath : string
+  image_url : string
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 export class User {
@@ -21,6 +21,9 @@ export class User {
   styleUrls: ['./inscription.scss'],
 })
 export class Inscription {
+
+  constructor(private http: HttpClient) {}
+
   public user: User = new User();
   public message: string = '';
   public passwordMismatch: boolean = false;
@@ -36,5 +39,32 @@ export class Inscription {
     }
 
     this.passwordMismatch = false;
+  }
+
+  formData = {
+    email: '',
+    motDePasse:'',
+    confirmationMotDePasse:'',
+    nom:'',
+    prenom:'',
+    adresse:'',
+    mobile:''
+  };
+
+  register(){
+    if (this.formData.motDePasse !== this.formData.confirmationMotDePasse) {
+      console.error("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    const data = {
+      email: this.formData.email,
+      motDePasse: this.formData.motDePasse,
+      nom: this.formData.nom,
+      prenom: this.formData.prenom,
+      adresse: this.formData.adresse,
+      mobile: this.formData.mobile
+    };
+
   }
 }

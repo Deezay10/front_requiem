@@ -8,7 +8,23 @@
 </head>
 <!-- Corps de la page -->
 <body>
-<h1>Inventaire</h1>
-<p>Ceci est la page inventaire</p>
+<br>
+<h1 class="title">Inventaire</h1>
+<br>
+<div class="uk-container">
+  <div class="uk-child-width-1-3@m" uk-grid>
+    @for (legume of legumes; track legume) {
+      <div>
+        <div class="uk-card uk-card-default uk-card-body uk-inline-clip">
+          <img class="uk-responsive-width" src="{{ legume.imgPath }}" alt="" width="250" height="250" style="object-fit: cover;">
+          <h3 class="uk-card-title">{{ legume.nom }}</h3>
+          <p>Saison : {{liste_saison[legume.id]}}</p>
+          <p>Temps de croissance : {{legume.temps_croissance_jours}} jours</p>
+          <p>Rendement : {{legume.rendement_moyen_kg_m2}} kg par m²</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 
 /* Fond vert transparent et coins arrondis */
 .uk-navbar-container {
-  background-color: rgba(179, 220, 94, 0.4); /* Fond vert transparent */
+  background-color: rgb(227 215 178 / 0.51); /* Fond vert transparent */
   border-radius: 8px; /* Coins arrondis */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -22,12 +22,12 @@
   color: #333333 !important; /* Force la couleur du texte en foncé */
 }
 .uk-button-text:hover {
-  color: #5bb75b !important; /* Couleur au survol */
+  color: lightsalmon !important; /* Couleur au survol */
 }
 
 /* Styles pour le bouton "Connexion" (uk-button-primary) */
 .uk-button-primary {
-  background-color: #5bb75b; /* Un vert plus soutenu pour le bouton principal */
+  background-color: lightsalmon; /* Un vert plus soutenu pour le bouton principal */
   color: white;
   border: none;
   border-radius: 4px;

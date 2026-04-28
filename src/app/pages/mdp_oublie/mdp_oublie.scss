@@ -4,7 +4,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: rgb(227 215 178 / 0.51);
 
   h2 {
     text-align: center;
@@ -24,7 +24,7 @@
 
   .uk-button {
     width: 100%;
-    background-color: #5bb75b;
+    background-color: lightsalmon;
     color: white;
     padding: 10px;
     border: none;
@@ -32,7 +32,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #4cae4c;
+      background-color: lightsalmon;
     }
   }
 

@@ -4,11 +4,11 @@ html, body, app-root {
   margin: 0;
 }
 
-app-root > * {
-  background-color: transparent;
-  display: block;
-  min-height: 100vh;
-}
+//app-root > * {
+  //background-color: transparent;
+  //display: block;
+  //min-height: 100vh;
+//}
 
 .log {
   text-align: center;
@@ -41,7 +41,28 @@ app-root > * {
 }
 
 body {
+<<<<<<< HEAD
+=======
+  //faux positif (ça marche parfaitement bien, ne pas toucher)
+  background-image: url('/image1.png');
+>>>>>>> 51e305a (ajout du footer (problème, avec accueil il ne se met pas en bas))
   background-size: cover;        /* couvre tout l'écran */
   background-position: center;   /* centre l'image */
   background-repeat: no-repeat;  /* évite la répétition */
+  background-attachment: fixed;
+
+
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* la page fait au moins toute la hauteur de l'écran */
+}
+
+/* Cible app-root lui-même pour qu'il s'étire */
+app-root {
+  display: contents; /* laisse body gérer le flex */
+}
+
+router-outlet + * {   /* le composant chargé par le router */
+  flex: 1;            /* prend tout l'espace restant entre header et footer */
 }

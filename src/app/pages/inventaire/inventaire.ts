@@ -29,8 +29,11 @@ export class Inventaire implements OnInit {
         for (let legume of this.legumes) {
           if (legume.saisons.length > 1) {
             this.liste_saison[legume.id] = legume.saisons.join(', ');
-          } else {
+          } else if (legume.saisons.length === 1) {
             this.liste_saison[legume.id] = legume.saisons[0];
+          }
+          else {
+            this.liste_saison[legume.id] = "Non renseigné";
           }
         }
       },

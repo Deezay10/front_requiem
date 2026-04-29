@@ -1,70 +1,55 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-
-export class User {
-  public email: string = '';
-  public password: string = '';
-  public passwordConfirm: string = '';
-  public pseudo: string = '';
-  public city: string = '';
-  public cityCode: string = '';
-  public phone: string = '';
-}
 
 @Component({
   selector: 'app-inscription',
-  standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [FormsModule],
   templateUrl: './inscription.html',
   styleUrls: ['./inscription.scss'],
 })
 export class Inscription {
 
-  constructor(private http: HttpClient) {}
-
-  public user: User = new User();
-  public message: string = '';
-  public passwordMismatch: boolean = false;
-
-  sendFormData() {
-    const pwd = (this.user.password || '').trim();
-    const pwdConfirm = (this.user.passwordConfirm || '').trim();
-
-    if (pwd !== pwdConfirm) {
-      this.passwordMismatch = true;
-      this.message = 'Les mots de passe ne correspondent pas.';
-      return;
-    }
-
-    this.passwordMismatch = false;
-  }
-
-  formData = {
-    email: '',
-    motDePasse:'',
-    confirmationMotDePasse:'',
-    nom:'',
-    prenom:'',
-    adresse:'',
-    mobile:''
+  user = {
+    email: "",
+    motdepasse: "",
+    confirmationmotdepasse: "",
+    nom: "",
+    prenom: "",
+    adresse: "",
+    mobile: ""
   };
 
-  register(){
-    if (this.formData.motDePasse !== this.formData.confirmationMotDePasse) {
-      console.error("Les mots de passe ne correspondent pas");
+  public mdpdifferent = false;
+  public message = "";
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  register() {
+    if (this.user.motdepasse !== this.user.confirmationmotdepasse) {
+      this.message = "Les mots de passe ne correspondent pas";
+      this.mdpdifferent = true;
       return;
     }
 
     const data = {
-      email: this.formData.email,
-      motDePasse: this.formData.motDePasse,
-      nom: this.formData.nom,
-      prenom: this.formData.prenom,
-      adresse: this.formData.adresse,
-      mobile: this.formData.mobile
+      email: this.user.email,
+      motdepasse: this.user.motdepasse,
+      nom: this.user.nom,
+      prenom: this.user.prenom,
+      adresse: this.user.adresse,
+      mobile: this.user.mobile
     };
 
+    this.http.post('http://localhost:8080/users/register', data).subscribe({
+      next: (response) => {
+        this.message = "Inscription réussie !";
+        this.router.navigate(['/connexion']);
+      },
+      error: (err) => {
+        this.message = "Erreur lors de l'inscription";
+      }
+    });
   }
 }

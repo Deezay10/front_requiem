@@ -39,3 +39,10 @@ app-root > * {
   border: none;
   border-radius: 4px;
 }
+
+body {
+  background-image: url('/image1.png');
+  background-size: cover;        /* couvre tout l'écran */
+  background-position: center;   /* centre l'image */
+  background-repeat: no-repeat;  /* évite la répétition */
+}

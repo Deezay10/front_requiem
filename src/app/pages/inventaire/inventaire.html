@@ -3,16 +3,16 @@
 <br>
 <div class="uk-container">
   <div class="uk-child-width-1-3@m" uk-grid>
-    @for (legume of legumes; track legume) {
-      <div>
-        <div class="uk-card uk-card-default uk-card-body uk-inline-clip">
-          <img class="uk-responsive-width" src="{{ legume.image_url }}" alt="" width="250" height="250" style="object-fit: cover;">
-          <h3 class="uk-card-title">{{ legume.nom }}</h3>
-          <p>Saison : {{ liste_saison[legume.id] }}</p>
-          <p>Temps de croissance : {{ legume.croissance_jours }} jours</p>
-          <p>Rendement : {{ legume.rendement }} kg par m²</p>
-        </div>
+    <div *ngFor="let legume of legumes">
+      <div class="uk-card uk-card-default uk-card-body uk-inline-clip">
+        <img class="uk-responsive-width" src="{{ legume.image_url }}" alt="" width="250" height="250" style="object-fit: cover;">
+        <h3 class="uk-card-title">{{ legume.nom }}</h3>
+        <p>Saison : {{ liste_saison[legume.id] }}</p>
+        <p>Temps de croissance : {{ legume.croissance_jours }} jours</p>
+        <p>Rendement : {{ legume.rendement }} kg par m²</p>
       </div>
-    }
+    </div>
   </div>
 </div>
+<br>
+<br>

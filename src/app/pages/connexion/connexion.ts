@@ -28,8 +28,10 @@ export class Connexion {
       next: (response) => {
         this.message = 'Connexion réussie !';
         this.servicesConnexion.setUser(response);
-        this.router.navigate(['/inventaire']);
-      },
+        setTimeout(() => {
+        this.router.navigateByUrl('/inventaire');
+        }, 100);
+        },
       error: (err) => {
         this.message = 'Email ou mot de passe incorrect';
       },

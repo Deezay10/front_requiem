@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-inscription',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './inscription.html',
   styleUrls: ['./inscription.scss'],
 })
@@ -27,6 +28,9 @@ export class Inscription {
   constructor(private http: HttpClient, private router: Router) {}
 
   register() {
+    console.log("register appelé");
+    console.log("user : ", this.user);
+
     if (this.user.motdepasse !== this.user.confirmationmotdepasse) {
       this.message = "Les mots de passe ne correspondent pas";
       this.mdpdifferent = true;

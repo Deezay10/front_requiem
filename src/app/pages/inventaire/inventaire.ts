@@ -23,12 +23,9 @@ export class Inventaire implements OnInit {
 
   ngOnInit() {
     this.user = this.servicesConnexion.getUser();
-    this.http.get<any[]>(`http://localhost:8080/inventory/users/${this.user.id}`).subscribe({
-      next: (plantations) => {
-        // Pour chaque plantation, récupère le légume correspondant
-        const legumeIds = plantations.map(p => p.legume_id);
 
-        this.http.get<any[]>(`http://localhost:8080/plantations/user/${this.user.id}/legumes`).subscribe({
+    if (this.user) {
+        this.http.get<any[]>(`http://localhost:8080/inventaire/user/${this.user.id}`).subscribe({
           next: (legumes) => {
             this.legumes = legumes;
             for (let legume of this.legumes) {
@@ -45,8 +42,7 @@ export class Inventaire implements OnInit {
           console.error('Erreur récupération légumes : ', err);
           },
         });
-      }
-    });
+    }
   }
 }
 

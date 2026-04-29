@@ -8,9 +8,9 @@
         <div class="uk-card uk-card-default uk-card-body uk-inline-clip">
           <img class="uk-responsive-width" src="{{ legume.image_url }}" alt="" width="250" height="250" style="object-fit: cover;">
           <h3 class="uk-card-title">{{ legume.nom }}</h3>
-          <p>Saison : {{liste_saison[legume.id]}}</p>
-          <p>Temps de croissance : {{legume.temps_croissance_jours}} jours</p>
-          <p>Rendement : {{legume.rendement_moyen_kg_m2}} kg par m²</p>
+          <p>Saison : {{ liste_saison[legume.id] }}</p>
+          <p>Temps de croissance : {{ legume.croissance_jours }} jours</p>
+          <p>Rendement : {{ legume.rendement }} kg par m²</p>
         </div>
       </div>
     }

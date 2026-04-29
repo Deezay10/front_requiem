@@ -23,23 +23,29 @@ export class Inventaire implements OnInit {
 
   ngOnInit() {
     this.user = this.servicesConnexion.getUser();
-    this.http.get<any[]>('http://localhost:8080/legumes').subscribe({
-      next: (legumes) => {
-        this.legumes = legumes;
-        for (let legume of this.legumes) {
-          if (legume.saisons.length > 1) {
-            this.liste_saison[legume.id] = legume.saisons.join(', ');
-          } else if (legume.saisons.length === 1) {
-            this.liste_saison[legume.id] = legume.saisons[0];
-          }
-          else {
-            this.liste_saison[legume.id] = "Non renseigné";
-          }
-        }
-      },
-      error: (err) => {
-        console.error('Erreur récupération légumes : ', err);
-      },
+    this.http.get<any[]>(`http://localhost:8080/inventory/users/${this.user.id}`).subscribe({
+      next: (plantations) => {
+        // Pour chaque plantation, récupère le légume correspondant
+        const legumeIds = plantations.map(p => p.legume_id);
+
+        this.http.get<any[]>(`http://localhost:8080/plantations/user/${this.user.id}/legumes`).subscribe({
+          next: (legumes) => {
+            this.legumes = legumes;
+            for (let legume of this.legumes) {
+              if (legume.saisons && legume.saisons.length > 1) {
+                this.liste_saison[legume.id] = legume.saisons.join(', ');
+              } else if (legume.saisons && legume.saisons.length === 1) {
+                this.liste_saison[legume.id] = legume.saisons[0];
+              } else {
+                this.liste_saison[legume.id] = 'Non renseigné';
+              }
+            }
+          },
+          error: (err) => {
+          console.error('Erreur récupération légumes : ', err);
+          },
+        });
+      }
     });
   }
 }

@@ -1,13 +1,13 @@
-:host {
-  display: flex;
-  flex-direction: column;
+.uk-button {
+  background-color: #8fad6a;
+  color: white;
 }
-
-.title {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 3.6rem;
+.uk-link {
+  color: #8fad6a;
 }
-
-
+.uk-section-muted {
+  background-color: transparent !important;
+}
+.uk-section {
+  background-color: transparent !important;
+}

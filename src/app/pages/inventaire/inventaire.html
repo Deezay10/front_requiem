@@ -14,6 +14,8 @@
         <p>Saison : {{ liste_saison[legume.id] }}</p>
         <p>Temps de croissance : {{ legume.croissance_jours }} jours</p>
         <p>Rendement : {{ legume.rendement }} kg par m²</p>
+        <p>Superficie : {{ legume.surface_m2 }} m²</p>
+        <p>Date de plantation : {{ legume.date_plantation | date:'dd/MM/yyyy' }}</p>
       </div>
     </div>
   </div>

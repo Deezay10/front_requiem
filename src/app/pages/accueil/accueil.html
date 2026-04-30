@@ -1,33 +1,41 @@
-<div class="dashboard-wrapper uk-container uk-container-expand">
-  <!-- En-tête -->
-  <div class="uk-text-center uk-margin-large-bottom">
-    <h1 class="uk-heading-medium">Bonjour <span class="user-name">User</span></h1>
-  </div>
+<div class="dashboard-wrapper">
+  <br>
+  <!-- Le titre est maintenant en dehors de la shell grise -->
+  <header class="uk-text-center uk-margin-bottom">
+    <h1 class="welcome-text">Bonjour <span>User</span></h1>
+  </header>
 
-  <!-- Grille du Dashboard -->
-  <div class="dashboard-grid">
-    <!-- Zone IA -->
-    <div class="card-ia uk-card uk-card-default uk-card-body uk-border-rounded">
-      <h3 class="uk-card-title">IA</h3>
-      <p>Interface de contrôle...</p>
-    </div>
+  <!-- Le container gris devient le "cadre" réduit -->
+  <div class="dashboard-outer-shell">
+    <div class="uk-container uk-container-expand">
+      <div class="dashboard-main-grid">
 
-    <!-- Liste Plantes -->
-    <div class="card-plants uk-card uk-card-default uk-card-body uk-border-rounded">
-      <h3 class="uk-card-title">État des plantes</h3>
-      <p>Suivi en temps réel...</p>
-    </div>
+        <!-- IA -->
+        <div class="card card-ia uk-card uk-card-default uk-card-body">
+          <h3 class="uk-card-title">IA</h3>
+          <div class="widget-content"></div>
+        </div>
 
-    <!-- Map -->
-    <div class="card-map uk-card uk-card-default uk-card-body uk-border-rounded">
-      <h3 class="uk-card-title">Map</h3>
-      <div class="map-placeholder">Position des capteurs</div>
-    </div>
+        <!-- Plantes -->
+        <div class="card card-plants uk-card uk-card-default uk-card-body">
+          <h3 class="uk-card-title">État des plantes</h3>
+          <div class="widget-content"></div>
+        </div>
 
-    <!-- Home Assistant -->
-    <div class="card-ha uk-card uk-card-default uk-card-body uk-border-rounded">
-      <h3 class="uk-card-title">Home Assistant</h3>
-      <p>Capteurs actifs</p>
+        <!-- Stack de droite (Map + HA) -->
+        <div class="right-stack">
+          <div class="card card-map uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">Map</h3>
+            <div class="external-wrapper"></div>
+          </div>
+
+          <div class="card card-ha uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">Capteurs Home Assistant</h3>
+            <div class="external-wrapper"></div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

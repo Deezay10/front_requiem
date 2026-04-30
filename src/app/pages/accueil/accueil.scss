@@ -1,83 +1,97 @@
-:host {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 3.6rem;
-}
-// Variables de couleurs issues de image_f356b9.png
+// Variables
+$color-bg-grey: #ececec;
 $color-ia: #ffeb3b;
 $color-plants: #4caf50;
 $color-map: #03a9f4;
 $color-ha: #a1887f;
 
-.dashboard-wrapper {
-  padding-top: 40px;
+:host {
+  display: block;
+  width: 100%;
+}
 
-  .user-name {
+.welcome-text {
+  font-size: 3.6rem; // Ta valeur d'origine
+  text-align: center;
+  margin: 10px 0 20px 0;
+  color: #333;
+
+  span {
     text-decoration: underline;
+    text-underline-offset: 8px;
     font-weight: bold;
   }
 }
 
-.dashboard-grid {
+.dashboard-outer-shell {
+  background-color: $color-bg-grey;
+  margin: 0 auto;
+  padding: 10px;        // Écart très réduit sur les bords (au lieu de 25px)
+  border-radius: 20px;
+  max-width: 98%;       // Prend presque toute la largeur
+  box-sizing: border-box;
+}
+
+.dashboard-main-grid {
   display: grid;
-  // Configuration 3 colonnes comme sur le dessin
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap: 20px;
+  grid-template-columns: 1fr 1fr 1.8fr;
+  gap: 10px;            // Espacement serré entre les blocs
 
-  // Style commun aux cartes UIkit personnalisé
-  .uk-card {
-    border-width: 3px;
-    border-style: solid;
-    transition: 0.3s ease-in-out;
-    border-radius: 30px !important; // On force l'arrondi prononcé du dessin
+  // Pour que les colonnes de gauche s'alignent sur la hauteur de la colonne de droite
+  align-items: stretch;
 
-    &:hover {
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  .card {
+    background: #ffffff;
+    border-radius: 25px !important;
+    border: 3px solid transparent;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+
+    .uk-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
     }
   }
 
-  // Positionnement et couleurs spécifiques
+  // TAILLE DES BLOCS :
+  // IA et Plantes prennent toute la hauteur disponible par défaut
   .card-ia {
-    grid-row: 1 / span 2; // Colonne 1, toute la hauteur
     border-color: $color-ia;
+    min-height: 500px; // Taille de base plus grande
   }
 
   .card-plants {
-    grid-row: 1 / span 2; // Colonne 2, toute la hauteur
     border-color: $color-plants;
+    min-height: 500px;
   }
 
-  .card-map {
-    grid-column: 3;
-    grid-row: 1;
-    border-color: $color-map;
-  }
+  // Colonne de droite (Map + HA)
+  .right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-  .card-ha {
-    grid-column: 3;
-    grid-row: 2;
-    border-color: $color-ha;
+    .card-map {
+      flex: 3;             // La Map devient beaucoup plus grande
+      border-color: $color-map;
+      min-height: 350px;
+    }
+
+    .card-ha {
+      flex: 1;             // HA reste le plus petit bloc
+      min-height: 120px;
+      border-color: $color-ha;
+    }
   }
 }
 
-// Adaptation responsive (Tablettes et Mobiles)
-@media (max-width: 960px) {
-  .dashboard-grid {
+// Mobile
+@media (max-width: 1024px) {
+  .dashboard-main-grid {
     grid-template-columns: 1fr;
-
-    .card-ia, .card-plants {
-      grid-row: auto;
-    }
-
-    .card-map, .card-ha {
-      grid-column: auto;
-    }
+    .card { min-height: auto; }
   }
 }

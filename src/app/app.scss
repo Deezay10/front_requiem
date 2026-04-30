@@ -1,66 +1,22 @@
-html, body, app-root {
-  background-color: rgb(227, 215, 178);
-  min-height: 100vh;
+// On nettoie le global pour ne pas casser la structure
+html, body {
+  background-color: #fdfaf0 !important; // Beige clair
   margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
-//app-root > * {
-  //background-color: transparent;
-  //display: block;
-  //min-height: 100vh;
-//}
+#navbar.uk-navbar-container {
+  background-color: rgba(152, 213, 150, 0.51) !important;
+  border-radius: 12px;
+  margin: 10px 15px;
 
-.log {
-  text-align: center;
-}
+  .uk-button-primary {
+    background-color: #048B9A !important; // Bouton Log In en Canard
+    border: none !important;
+  }
 
-.uk-navbar-container {
-  background-color: rgb(152 213 150 / 0.51);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.uk-navbar-nav > li > a,
-.uk-navbar-item {
-  color: #333333 !important;
-  font-weight: 500;
-}
-
-.uk-button-text {
-  color: #333333 !important;
-}
-.uk-button-text:hover {
-  color: lightsalmon !important;
-}
-
-.uk-button-primary {
-  background-color: lightsalmon;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-body {
-/* SUPPRIMER CETTE LIGNE SI FOND D'ECRAN
-  //faux positif (ça marche parfaitement bien, ne pas toucher) PAS TOUCHE CETTE LIGNE
-  background-image: url('/image1.png'); Changer l'URL pour une image particulière
-  //(ajout du footer (problème, avec accueil il ne se met pas en bas)) PAS TOUCHE CETTE LIGNE
-  background-size: cover;         couvre tout l'écran
-  background-position: center;   centre l'image
-  background-repeat: no-repeat;   évite la répétition
-  background-attachment: fixed;
-SUPPRIMER CETTE LIGNE SI FOND D'ECRAN*/
-
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;  /* la page fait au moins toute la hauteur de l'écran */
-}
-
-/* Cible app-root lui-même pour qu'il s'étire */
-app-root {
-  display: contents; /* laisse body gérer le flex */
-}
-
-router-outlet + * {   /* le composant chargé par le router */
-  flex: 1;            /* prend tout l'espace restant entre header et footer */
+  [uk-icon] {
+    color: #048B9A !important;
+  }
 }

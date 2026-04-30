@@ -1,97 +1,63 @@
-// Variables
-$color-bg-grey: #ececec;
-$color-ia: #ffeb3b;
-$color-plants: #4caf50;
-$color-map: #03a9f4;
-$color-ha: #a1887f;
-
 :host {
   display: block;
   width: 100%;
 }
 
-.welcome-text {
-  font-size: 3.6rem; // Ta valeur d'origine
-  text-align: center;
-  margin: 10px 0 20px 0;
-  color: #333;
-
-  span {
-    text-decoration: underline;
-    text-underline-offset: 8px;
-    font-weight: bold;
-  }
-}
-
 .dashboard-outer-shell {
-  background-color: $color-bg-grey;
+  background-color: rgba(240, 240, 240, 0.6); // Gris très léger
   margin: 0 auto;
-  padding: 10px;        // Écart très réduit sur les bords (au lieu de 25px)
+  padding: 10px;
   border-radius: 20px;
-  max-width: 98%;       // Prend presque toute la largeur
-  box-sizing: border-box;
+  max-width: 98%;
 }
 
 .dashboard-main-grid {
   display: grid;
+  // On s'assure que la grille a bien ses 3 colonnes
   grid-template-columns: 1fr 1fr 1.8fr;
-  gap: 10px;            // Espacement serré entre les blocs
-
-  // Pour que les colonnes de gauche s'alignent sur la hauteur de la colonne de droite
-  align-items: stretch;
+  gap: 15px;
+  align-items: stretch; // Force les cartes à avoir la même hauteur
 
   .card {
-    background: #ffffff;
+    background: #ffffff !important; // Cartes blanches
     border-radius: 25px !important;
-    border: 3px solid transparent;
     padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    min-height: 450px;
     display: flex;
     flex-direction: column;
+    border: 3px solid transparent;
 
     .uk-card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 15px;
+      color: #048B9A; // Titres en Bleu Canard
+      font-weight: bold;
     }
   }
 
-  // TAILLE DES BLOCS :
-  // IA et Plantes prennent toute la hauteur disponible par défaut
-  .card-ia {
-    border-color: $color-ia;
-    min-height: 500px; // Taille de base plus grande
-  }
+  // Couleurs des bordures (On enlève le saumon ici aussi)
+  .card-ia { border-color: #FFD700; }
+  .card-plants { border-color: #789262; }
 
-  .card-plants {
-    border-color: $color-plants;
-    min-height: 500px;
-  }
-
-  // Colonne de droite (Map + HA)
   .right-stack {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    height: 100%;
 
     .card-map {
-      flex: 3;             // La Map devient beaucoup plus grande
-      border-color: $color-map;
-      min-height: 350px;
+      flex: 3;
+      border-color: #048B9A;
     }
-
     .card-ha {
-      flex: 1;             // HA reste le plus petit bloc
+      flex: 1;
       min-height: 120px;
-      border-color: $color-ha;
+      border-color: #048B9A;
     }
   }
 }
 
-// Mobile
+// Sécurité pour le responsive
 @media (max-width: 1024px) {
   .dashboard-main-grid {
-    grid-template-columns: 1fr;
-    .card { min-height: auto; }
+    grid-template-columns: 1fr !important;
   }
 }

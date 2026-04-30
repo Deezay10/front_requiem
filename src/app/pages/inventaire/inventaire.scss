@@ -11,3 +11,22 @@
 .uk-inline-clip {
   border: 12px solid white;
 }
+
+.header-inventaire {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.bouton {
+  position: absolute;
+  right: 40px;
+  background-color: #8fad6a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+}

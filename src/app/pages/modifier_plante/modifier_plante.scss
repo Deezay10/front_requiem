@@ -1,11 +1,22 @@
 :host {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  background-color: rgb(227, 215, 178);
+  min-height: 100vh;
 }
 
-.title {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 3.6rem;
+.uk-section-muted {
+  background-color: transparent !important;
+}
+
+.uk-section {
+  background-color: transparent !important;
+}
+
+.uk-button-primary {
+  background-color: #8fad6a;
+  color: white;
+}
+
+.uk-link {
+  color: #8fad6a;
 }

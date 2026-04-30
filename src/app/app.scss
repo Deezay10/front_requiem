@@ -41,17 +41,15 @@ html, body, app-root {
 }
 
 body {
-<<<<<<< HEAD
-=======
-  //faux positif (ça marche parfaitement bien, ne pas toucher)
-  background-image: url('/image1.png');
->>>>>>> 51e305a (ajout du footer (problème, avec accueil il ne se met pas en bas))
-  background-size: cover;        /* couvre tout l'écran */
-  background-position: center;   /* centre l'image */
-  background-repeat: no-repeat;  /* évite la répétition */
+/* SUPPRIMER CETTE LIGNE SI FOND D'ECRAN
+  //faux positif (ça marche parfaitement bien, ne pas toucher) PAS TOUCHE CETTE LIGNE
+  background-image: url('/image1.png'); Changer l'URL pour une image particulière
+  //(ajout du footer (problème, avec accueil il ne se met pas en bas)) PAS TOUCHE CETTE LIGNE
+  background-size: cover;         couvre tout l'écran
+  background-position: center;   centre l'image
+  background-repeat: no-repeat;   évite la répétition
   background-attachment: fixed;
-
-
+SUPPRIMER CETTE LIGNE SI FOND D'ECRAN*/
 
   display: flex;
   flex-direction: column;

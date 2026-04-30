@@ -9,3 +9,75 @@
   text-align: center;
   font-size: 3.6rem;
 }
+// Variables de couleurs issues de image_f356b9.png
+$color-ia: #ffeb3b;
+$color-plants: #4caf50;
+$color-map: #03a9f4;
+$color-ha: #a1887f;
+
+.dashboard-wrapper {
+  padding-top: 40px;
+
+  .user-name {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  // Configuration 3 colonnes comme sur le dessin
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+
+  // Style commun aux cartes UIkit personnalisé
+  .uk-card {
+    border-width: 3px;
+    border-style: solid;
+    transition: 0.3s ease-in-out;
+    border-radius: 30px !important; // On force l'arrondi prononcé du dessin
+
+    &:hover {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+  }
+
+  // Positionnement et couleurs spécifiques
+  .card-ia {
+    grid-row: 1 / span 2; // Colonne 1, toute la hauteur
+    border-color: $color-ia;
+  }
+
+  .card-plants {
+    grid-row: 1 / span 2; // Colonne 2, toute la hauteur
+    border-color: $color-plants;
+  }
+
+  .card-map {
+    grid-column: 3;
+    grid-row: 1;
+    border-color: $color-map;
+  }
+
+  .card-ha {
+    grid-column: 3;
+    grid-row: 2;
+    border-color: $color-ha;
+  }
+}
+
+// Adaptation responsive (Tablettes et Mobiles)
+@media (max-width: 960px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+
+    .card-ia, .card-plants {
+      grid-row: auto;
+    }
+
+    .card-map, .card-ha {
+      grid-column: auto;
+    }
+  }
+}

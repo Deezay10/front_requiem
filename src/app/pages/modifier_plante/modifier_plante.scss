@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 3.6rem;
+}

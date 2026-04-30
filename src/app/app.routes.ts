@@ -6,6 +6,7 @@ import { Inscription } from './pages/Inscription/inscription';
 import { Map } from './pages/map/map';
 import { MdpOublie } from './pages/mdp_oublie/mdp_oublie';
 import { AjoutPlantes } from './pages/ajout_plantes/ajout_plantes';
+import { ModifierPlante } from './pages/modifier_plante/modifier_plante';
 
 export const routes: Routes = [
   { path: 'home', component: Accueil },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'inventaire', component: Inventaire },
   { path: 'map', component: Map },
   { path: 'MdpOublie', component: MdpOublie },
-  { path: 'ajout_plante', component: AjoutPlantes }
+  { path: 'ajout_plante', component: AjoutPlantes },
+  { path: 'modifier_plante/:plantation_id', component: ModifierPlante }
 ];

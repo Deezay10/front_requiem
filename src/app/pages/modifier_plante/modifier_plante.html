@@ -1,6 +1,57 @@
-<div class="uk-container uk-padding">
-  <h1 class="title">Accueil</h1>
-  <p>Ceci est l'accueil</p>
-  <p>effectivement</p>
-</div>
+<div class="uk-section uk-section-muted uk-flex uk-flex-middle uk-animation-fade" uk-height-viewport>
+  <div class="uk-width-1-1">
+    <div class="uk-container">
+      <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+          <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
 
+            <h3 class="uk-card-title uk-text-center">Modifier {{nom_legume}}</h3>
+
+            <form (ngSubmit)="save()" #form="ngForm">
+
+              <!-- Surface -->
+              <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                  <span class="uk-form-icon" uk-icon="expand"></span>
+                  <input class="uk-input uk-form-large" [(ngModel)]="editData.surface_m2" name="surface_m2" type="number" placeholder="Surface en m²" required>
+                </div>
+              </div>
+
+              <!-- Etat -->
+              <div class="uk-margin">
+                <select class="uk-select uk-form-large" [(ngModel)]="editData.etat" name="etat" required>
+                  <option value="" disabled>Choisir un état</option>
+                  <option value="en cours">En cours</option>
+                  <option value="termine">Terminé</option>
+                  <option value="en attente">En attente</option>
+                </select>
+              </div>
+
+              <!-- Date de plantation -->
+              <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                  <span class="uk-form-icon" uk-icon="calendar"></span>
+                  <input class="uk-input uk-form-large" [(ngModel)]="editData.date_plantation" name="date_plantation" type="date" required>
+                </div>
+              </div>
+
+              <p *ngIf="message" class="uk-text-danger uk-text-small">{{ message }}</p>
+
+              <!-- Envoyer -->
+              <div class="uk-margin">
+                <button type="submit" class="uk-button uk-button-primary uk-button-large uk-width-1-1">
+                  Sauvegarder
+                </button>
+              </div>
+
+              <div class="uk-text-small uk-text-center">
+                <a class="uk-link" href="/inventaire">Retour à l'inventaire</a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

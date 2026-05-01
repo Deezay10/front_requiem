@@ -1,45 +1,71 @@
 <div class="dashboard-wrapper">
-  <br>
-  <!-- Le titre est maintenant en dehors de la shell grise -->
+
   <header class="uk-text-center uk-margin-bottom">
     <h1 class="welcome-text">Bonjour <span>User</span></h1>
   </header>
 
-  <!-- Le container gris devient le "cadre" réduit -->
   <div class="dashboard-outer-shell">
-    <div class="uk-container uk-container-expand">
-      <div class="dashboard-main-grid">
+    <div class="dashboard-main-grid">
 
-        <!-- IA -->
-        <div class="card card-ia uk-card uk-card-default uk-card-body">
-          <h3 class="uk-card-title">IA</h3>
-          <div class="widget-content">
+      <!-- IA -->
+      <div class="card card-ia uk-card uk-card-body">
+        <h3 class="uk-card-title">IA</h3>
+        <div class="widget-content"></div>
+      </div>
 
-          </div>
-        </div>
-
-        <!-- Plantes -->
-        <div class="card card-plants uk-card uk-card-default uk-card-body">
+      <!-- Plantes -->
+      <div class="card card-plants uk-card uk-card-body">
+        <div class="plants-card-header">
           <h3 class="uk-card-title">État des plantes</h3>
-          <div class="widget-content"></div>
+          <a class="plants-add-btn" href="/ajout_plante">+ Ajouter</a>
         </div>
 
-        <!-- Stack de droite (Map + HA) -->
-        <div class="right-stack">
-          <div class="card card-map uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">Map</h3>
-            <div class="external-wrapper">
-              <iframe [src]="link" width="100%" height="230%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="widget-content plants-list">
+          <div class="plant-item" *ngFor="let legume of legumes">
+            <img
+              class="plant-thumb"
+              [src]="legume.image_url"
+              [alt]="legume.nom"
+            />
+            <div class="plant-info">
+              <p class="plant-name">{{ legume.nom }}</p>
+              <p class="plant-meta">{{ liste_saison[legume.id] }} · {{ legume.croissance_jours }}j · {{ legume.surface_m2 }} m²</p>
+              <p class="plant-date">Planté le {{ legume.date_plantation | date:'dd/MM/yyyy' }}</p>
+            </div>
+            <div class="plant-right">
+              <span class="plant-etat" [ngClass]="'etat-' + legume.etat?.toLowerCase()">{{ legume.etat }}</span>
+              <a [href]="'/modifier_plante/' + legume.plantation_id" class="plant-edit-btn">Modifier</a>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="card card-ha uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">Capteurs Home Assistant</h3>
-            <div class="external-wrapper"></div>
+      <!-- Map + Home Assistant -->
+      <div class="right-stack">
+
+        <div class="card card-map uk-card uk-card-body">
+          <h3 class="uk-card-title">Map</h3>
+          <div class="external-wrapper">
+            <iframe
+              [src]="link"
+              width="100%"
+              height="100%"
+              style="border: 0;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
+        </div>
+
+        <div class="card card-ha uk-card uk-card-body">
+          <h3 class="uk-card-title">Capteurs Home Assistant</h3>
+          <div class="external-wrapper"></div>
         </div>
 
       </div>
+
     </div>
   </div>
+
 </div>

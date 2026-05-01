@@ -10,7 +10,7 @@
   color: #048b9a;
 
   span {
-    color: #ffd700;
+    color: #787474;
   }
 }
 
@@ -61,10 +61,10 @@
 }
 
 // ── Couleurs de bordure par carte ───────────────────────────────────
-.card-ia     { border-color: #ffd700; }
-.card-plants { border-color: #789262; }
-.card-map    { border-color: #048b9a; flex: 3; }
-.card-ha     { border-color: #048b9a; min-height: 120px; flex: 1; }
+.card-ia     { border-color: #f3e6ad; }
+.card-plants { border-color: #b3cc9b; }
+.card-map    { border-color: #9bcbd1; flex: 3; }
+.card-ha     { border-color: #05535e; min-height: 120px; flex: 1; }
 
 // ── Colonne droite empilée ──────────────────────────────────────────
 .right-stack {

@@ -38,20 +38,28 @@
       <!-- Droite -->
       <div class="uk-navbar-right">
         <div class="log uk-navbar-item uk-visible@s">
-          <a class="uk-button uk-button-text uk-margin-right" href="inscription">Sign in</a>
-          <a class="uk-button uk-button-primary" href="connexion">Log In</a>
+
+          <ng-container *ngIf="!isConnecte">
+            <a class="uk-button uk-button-text uk-margin-right" href="inscription">Sign in</a>
+            <a class="uk-button uk-button-primary" href="connexion">Log In</a>
+          </ng-container>
+
+          <ng-container *ngIf="isConnecte">
+            <a class="uk-button uk-button-danger" (click)="deconnexion()">Déconnexion</a>
+          </ng-container>
+
         </div>
         <div></div>
       </div>
     </nav>
   </div>
 </header>
-  
+
 <router-outlet></router-outlet>
 <br>
 
 <!-- FOOTER -->
-  
+
 <footer class="uk-section-secondary">
     <div class="uk-container uk-section">
       <div class="uk-grid uk-child-width-1-3@l" data-uk-grid>

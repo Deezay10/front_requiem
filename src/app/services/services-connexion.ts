@@ -20,6 +20,14 @@ export class ServicesConnexion {
     return this.user;
   }
 
+  setToken(token: string) {
+    sessionStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return sessionStorage.getItem('token');
+  }
+
   isLoggedIn() {
     return this.getUser() !== null;
   }

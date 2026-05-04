@@ -1,67 +1,154 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
+import { CommonModule, NgStyle } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ServicesConnexion } from '../../services/services-connexion';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-modifier-plante',
-  imports: [FormsModule, CommonModule],
-  templateUrl: './modifier_plante.html',
-  styleUrls: ['./modifier_plante.scss'],
+  selector: 'app-accueil',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './accueil.html',
+  styleUrl: './accueil.scss',
 })
-export class ModifierPlante implements OnInit {
-  public plantation_id: string = '';
-  public message: string = '';
+export class Accueil implements OnInit {
+  public link: SafeResourceUrl = '';
+  public legumes: any[] = [];
+  public liste_saison: { [key: string]: string } = {};
 
-  editData = {
-    surface_m2: 0,
-    etat: '',
-    date_plantation: '',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  public selectedLegume: any = null;
+  public iaResult: {
+    health_score: number;
+    status: string;
+    status_label: string;
+    advice: string;
+  } | null = null;
+  public iaLoading = false;
+  public iaError = '';
+
+  // Capteurs simulés (remplacer par Home Assistant plus tard)
+  private capteurs = {
+    humidity: 30,
+    air_humidity: 55,
+    temperature: 28,
+    light_level: 800,
   };
 
+  protected user: any;
+
   constructor(
+    private sanitizer: DomSanitizer,
+    private servicesConnexion: ServicesConnexion,
     private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
+    private ngZone: NgZone,
     private cd: ChangeDetectorRef,
   ) {}
 
-  public nom_legume: string = '';
-
   ngOnInit() {
-    this.plantation_id = this.route.snapshot.paramMap.get('plantation_id') || '';
-    this.http.get<any>(`${environment.apiUrl}/plantation/${this.plantation_id}`).subscribe({
-      next: (data) => {
-        this.nom_legume = data.nom;
-        this.editData.surface_m2 = data.surface_m2;
-        this.editData.etat = data.etat;
-        this.editData.date_plantation = data.date_plantation
-          ? data.date_plantation.split('T')[0]
-          : '';
+    this.user = this.servicesConnexion.getUser();
+    const user = this.servicesConnexion.getUser();
+
+    if (user?.adresse) {
+      const adresseFormatee = user.adresse.replaceAll(' ', '+');
+      this.link = this.sanitizer.bypassSecurityTrustResourceUrl(
+        'https://maps.google.com/maps?q=' + adresseFormatee + '&t=k&output=embed',
+      );
+    }
+
+    if (user?.id) {
+      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${user.id}`).subscribe({
+        next: (legumes) => {
+          this.legumes = legumes;
+
+          for (let legume of this.legumes) {
+            if (legume.saisons?.length > 1) {
+              this.liste_saison[legume.id] = legume.saisons.join(', ');
+            } else if (legume.saisons?.length === 1) {
+              this.liste_saison[legume.id] = legume.saisons[0];
+            } else {
+              this.liste_saison[legume.id] = 'Non renseigné';
+            }
+          }
+
+          if (this.legumes.length > 0) {
+            this.selectedLegume = this.legumes[0];
+            this.analyserPlante();
+          }
+
+          this.cd.detectChanges();
+        },
+        error: (err) => {
+          console.error('Erreur récupération légumes : ', err);
+        },
+      });
+    }
+  }
+
+  selectionnerPlante(legume: any) {
+    this.selectedLegume = legume;
+    this.iaResult = null;
+    this.analyserPlante();
+  }
+
+  analyserPlante() {
+    if (!this.selectedLegume) return;
+
+    this.iaLoading = true;
+    this.iaError = '';
+    this.iaResult = null;
+
+    const body = {
+      plant: {
+        nom: this.selectedLegume.nom,
+        type: this.selectedLegume.type,
+        besoin_eau: this.selectedLegume.besoin_eau,
+        ensoleillement: this.selectedLegume.ensoleillement,
+        saison: this.selectedLegume.saisons,
+        croissance_jours: this.selectedLegume.croissance_jours,
+      },
+      plants_user: {
+        date_plantation: this.selectedLegume.date_plantation,
+        surface_m2: this.selectedLegume.surface_m2,
+        etat: this.selectedLegume.etat,
+      },
+      capteurs: this.capteurs,
+    };
+
+    this.http.post<any>(`$${environment.iaUrl}/api/analyze/`, body).subscribe({
+      next: (result) => {
+        this.iaResult = result;
+        this.iaLoading = false;
         this.cd.detectChanges();
-        console.log(this.nom_legume);
-        console.log('Données reçues : ', data);
       },
       error: (err) => {
-        console.error('Erreur : ', err);
+        console.error('Erreur analyse IA : ', err);
+        this.iaError = 'Impossible de contacter le service IA.';
+        this.iaLoading = false;
+        this.cd.detectChanges();
       },
     });
   }
 
-  save() {
-    this.http
-      .post(`${environment.apiUrl}/edit_plantation/${this.plantation_id}`, this.editData)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/inventaire']);
-        },
-        error: (err) => {
-          this.message = 'Erreur lors de la modification';
-          console.error(err);
-        },
-      });
+  getScoreColor(): string {
+    if (!this.iaResult) return '#ccc';
+    if (this.iaResult.health_score >= 70) return '#4caf50';
+    if (this.iaResult.health_score >= 40) return '#ff9800';
+    return '#f44336';
+  }
+
+  getStatusIcon(): string {
+    if (!this.iaResult) return 'info';
+    const icons: { [key: string]: string } = {
+      healthy: 'check',
+      drought_stress: 'warning',
+      overwatered: 'warning',
+      light_deficiency: 'warning',
+      heat_stress: 'warning',
+      nutrient_deficiency: 'warning',
+      disease_risk: 'bolt',
+    };
+    return icons[this.iaResult.status] ?? 'info';
   }
 }

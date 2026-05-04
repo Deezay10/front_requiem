@@ -1,16 +1,15 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-import { CommonModule, NgStyle } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ServicesConnexion } from '../../services/services-connexion';
 import { environment } from '../../../environments/environment';
 
-
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './accueil.html',
   styleUrl: './accueil.scss',
 })
@@ -18,138 +17,113 @@ export class Accueil implements OnInit {
   public link: SafeResourceUrl = '';
   public legumes: any[] = [];
   public liste_saison: { [key: string]: string } = {};
+  protected user: any;
 
+  // État de l'IA et du Chat
   public selectedLegume: any = null;
-  public iaResult: {
-    health_score: number;
-    status: string;
-    status_label: string;
-    advice: string;
-  } | null = null;
   public iaLoading = false;
   public iaError = '';
+  public chatMessages: any[] = [];
+  public userQuestion: string = '';
 
-  // Capteurs simulés (remplacer par Home Assistant plus tard)
+  // Capteurs simulés pour forcer une réaction de l'IA
   private capteurs = {
-    humidity: 30,
+    humidity: 82,
     air_humidity: 55,
-    temperature: 28,
+    temperature: 24,
     light_level: 800,
   };
-
-  protected user: any;
 
   constructor(
     private sanitizer: DomSanitizer,
     private servicesConnexion: ServicesConnexion,
     private http: HttpClient,
-    private ngZone: NgZone,
     private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
     this.user = this.servicesConnexion.getUser();
-    const user = this.servicesConnexion.getUser();
 
-    if (user?.adresse) {
-      const adresseFormatee = user.adresse.replaceAll(' ', '+');
+    if (this.user?.adresse) {
+      const adresseFormatee = this.user.adresse.replaceAll(' ', '+');
       this.link = this.sanitizer.bypassSecurityTrustResourceUrl(
         'https://maps.google.com/maps?q=' + adresseFormatee + '&t=k&output=embed',
       );
     }
 
-    if (user?.id) {
-      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${user.id}`).subscribe({
+    if (this.user?.id) {
+      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${this.user.id}`).subscribe({
         next: (legumes) => {
           this.legumes = legumes;
-
-          for (let legume of this.legumes) {
-            if (legume.saisons?.length > 1) {
-              this.liste_saison[legume.id] = legume.saisons.join(', ');
-            } else if (legume.saisons?.length === 1) {
-              this.liste_saison[legume.id] = legume.saisons[0];
-            } else {
-              this.liste_saison[legume.id] = 'Non renseigné';
-            }
-          }
+          this.configurerSaisons();
 
           if (this.legumes.length > 0) {
             this.selectedLegume = this.legumes[0];
             this.analyserPlante();
           }
-
           this.cd.detectChanges();
         },
-        error: (err) => {
-          console.error('Erreur récupération légumes : ', err);
-        },
+        error: (err) => console.error('Erreur inventaire:', err),
       });
     }
   }
 
+  private configurerSaisons() {
+    for (let legume of this.legumes) {
+      this.liste_saison[legume.id] = legume.saisons?.length > 0 ? legume.saisons.join(', ') : 'Non renseigné';
+    }
+  }
+
   selectionnerPlante(legume: any) {
+    if (this.selectedLegume?.id === legume.id) return;
     this.selectedLegume = legume;
-    this.iaResult = null;
+    this.chatMessages = [];
     this.analyserPlante();
   }
 
   analyserPlante() {
     if (!this.selectedLegume) return;
-
     this.iaLoading = true;
     this.iaError = '';
-    this.iaResult = null;
 
-    const body = {
-      plant: {
-        nom: this.selectedLegume.nom,
-        type: this.selectedLegume.type,
-        besoin_eau: this.selectedLegume.besoin_eau,
-        ensoleillement: this.selectedLegume.ensoleillement,
-        saison: this.selectedLegume.saisons,
-        croissance_jours: this.selectedLegume.croissance_jours,
-      },
-      plants_user: {
-        date_plantation: this.selectedLegume.date_plantation,
-        surface_m2: this.selectedLegume.surface_m2,
-        etat: this.selectedLegume.etat,
-      },
-      capteurs: this.capteurs,
-    };
+    const body = { nom: this.selectedLegume.nom, capteurs: this.capteurs };
 
-    this.http.post<any>(`$${environment.iaUrl}/api/analyze/`, body).subscribe({
-      next: (result) => {
-        this.iaResult = result;
+    this.http.post<any>(`${environment.apiUrl}/api/ia/chat/init`, body).subscribe({
+      next: (res) => {
+        this.chatMessages.push({ role: 'ia', texte: res.message });
         this.iaLoading = false;
         this.cd.detectChanges();
       },
-      error: (err) => {
-        console.error('Erreur analyse IA : ', err);
-        this.iaError = 'Impossible de contacter le service IA.';
+      error: () => {
+        this.iaError = 'Service IA indisponible.';
         this.iaLoading = false;
         this.cd.detectChanges();
-      },
+      }
     });
   }
 
-  getScoreColor(): string {
-    if (!this.iaResult) return '#ccc';
-    if (this.iaResult.health_score >= 70) return '#4caf50';
-    if (this.iaResult.health_score >= 40) return '#ff9800';
-    return '#f44336';
-  }
+  poserQuestion() {
+    if (!this.userQuestion.trim() || this.iaLoading) return;
 
-  getStatusIcon(): string {
-    if (!this.iaResult) return 'info';
-    const icons: { [key: string]: string } = {
-      healthy: 'check',
-      drought_stress: 'warning',
-      overwatered: 'warning',
-      light_deficiency: 'warning',
-      heat_stress: 'warning',
-      nutrient_deficiency: 'warning',
-      disease_risk: 'bolt',
-    };
-    return icons[this.iaResult.status] ?? 'info';
+    const text = this.userQuestion;
+    this.chatMessages.push({ role: 'user', texte: text });
+    this.userQuestion = '';
+    this.iaLoading = true;
+
+    this.http.post<any>(`${environment.apiUrl}/api/ia/chat/question`, {
+      question: text,
+      legume: this.selectedLegume.nom
+    }).subscribe({
+      next: (res) => {
+        this.chatMessages.push({ role: 'ia', texte: res.reponse });
+        this.iaLoading = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.chatMessages.push({ role: 'ia', texte: "Désolé, une erreur est survenue." });
+        this.iaLoading = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 }

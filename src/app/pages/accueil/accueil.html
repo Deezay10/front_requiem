@@ -1,5 +1,4 @@
 <div class="dashboard-wrapper">
-
   <header class="uk-text-center uk-margin-bottom">
     <h1 class="welcome-text">Bonjour <span>{{user?.prenom}}</span></h1>
   </header>
@@ -7,71 +6,42 @@
   <div class="dashboard-outer-shell">
     <div class="dashboard-main-grid">
 
-      <!-- ══ IA ══ -->
+      <!-- ══ IA CHAT ══ -->
       <div class="card card-ia uk-card uk-card-body">
-
         <div class="ia-card-header">
           <h3 class="uk-card-title">
             Analyse IA
             <span class="ia-plant-name" *ngIf="selectedLegume">— {{ selectedLegume.nom }}</span>
           </h3>
-          <button class="ia-refresh-btn" (click)="analyserPlante()" [disabled]="iaLoading" title="Relancer l'analyse">
-            <span uk-icon="refresh"></span>
+          <button class="ia-refresh-btn" (click)="analyserPlante()" [disabled]="iaLoading">
+            <span uk-icon="refresh" [class.uk-spinner]="iaLoading"></span>
           </button>
         </div>
 
-        <!-- Chargement -->
-        <div class="ia-loading" *ngIf="iaLoading">
-          <div uk-spinner="ratio: 1.2"></div>
-          <p>Analyse en cours…</p>
-        </div>
-
-        <!-- Erreur -->
-        <div class="ia-error" *ngIf="iaError && !iaLoading">
-          <span uk-icon="warning"></span> {{ iaError }}
-        </div>
-
-        <!-- Aucune plante -->
-        <div class="ia-empty" *ngIf="legumes.length === 0 && !iaLoading">
-          <span uk-icon="bag"></span>
-          <p>Aucune plante dans votre inventaire.</p>
-        </div>
-
-        <!-- Résultat -->
-        <div class="ia-result" *ngIf="iaResult && !iaLoading">
-
-          <div class="ia-top">
-            <div class="ia-score-wrap">
-              <svg class="ia-score-ring" viewBox="0 0 80 80">
-                <circle cx="40" cy="40" r="34" fill="none" stroke="#eee" stroke-width="8"/>
-                <circle
-                  cx="40" cy="40" r="34"
-                  fill="none"
-                  [attr.stroke]="getScoreColor()"
-                  stroke-width="8"
-                  stroke-linecap="round"
-                  stroke-dasharray="213.6"
-                  [attr.stroke-dashoffset]="213.6 - (213.6 * iaResult!.health_score / 100)"
-                  transform="rotate(-90 40 40)"
-                />
-                <text x="40" y="45" text-anchor="middle" class="ia-score-text" [attr.fill]="getScoreColor()">
-                  {{ iaResult!.health_score }}
-                </text>
-              </svg>
-              <p class="ia-score-label">Santé</p>
+        <div class="chat-container">
+          <div class="chat-window" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="ia-error" *ngIf="iaError && !iaLoading">
+              <span uk-icon="warning"></span> {{ iaError }}
             </div>
 
-            <div class="ia-right-info">
-              <div class="ia-status-badge" [ngClass]="'status-' + iaResult!.status">
-                <span [attr.uk-icon]="getStatusIcon()"></span>
-                {{ iaResult!.status_label }}
+            <div *ngFor="let msg of chatMessages" [ngClass]="msg.role">
+              <div class="bubble">
+                <span *ngIf="msg.role === 'ia'">🤖</span> {{ msg.texte }}
               </div>
-              <p class="ia-advice-text">{{ iaResult!.advice }}</p>
+            </div>
+
+            <div class="ia" *ngIf="iaLoading">
+              <div class="bubble">...</div>
             </div>
           </div>
 
+          <div class="chat-input-area" *ngIf="selectedLegume">
+            <input [(ngModel)]="userQuestion" (keyup.enter)="poserQuestion()" placeholder="Posez une question...">
+            <button (click)="poserQuestion()" [disabled]="iaLoading || !userQuestion">
+              <span uk-icon="push"></span>
+            </button>
+          </div>
         </div>
-
       </div>
 
       <!-- ══ PLANTES ══ -->
@@ -80,54 +50,36 @@
           <h3 class="uk-card-title">État des plantes</h3>
           <a class="plants-add-btn" href="/ajout_plante">+ Ajouter</a>
         </div>
-
         <div class="widget-content plants-list">
-          <div
-            class="plant-item"
-            *ngFor="let legume of legumes"
-            [ngClass]="{ 'plant-item-active': selectedLegume?.plantation_id === legume.plantation_id }"
-            (click)="selectionnerPlante(legume)"
-          >
+          <div class="plant-item" *ngFor="let legume of legumes"
+               [ngClass]="{ 'plant-item-active': selectedLegume?.id === legume.id }"
+               (click)="selectionnerPlante(legume)">
             <img class="plant-thumb" [src]="legume.image_url" [alt]="legume.nom" />
             <div class="plant-info">
               <p class="plant-name">{{ legume.nom }}</p>
-              <p class="plant-meta">{{ liste_saison[legume.id] }} · {{ legume.croissance_jours }}j · {{ legume.surface_m2 }} m²</p>
-              <p class="plant-date">Planté le {{ legume.date_plantation | date:'dd/MM/yyyy' }}</p>
+              <p class="plant-meta">{{ liste_saison[legume.id] }} · {{ legume.croissance_jours }}j</p>
             </div>
             <div class="plant-right">
-              <span class="plant-etat" [ngClass]="'etat-' + legume.etat?.toLowerCase()">{{ legume.etat }}</span>
-              <a [href]="'/modifier_plante/' + legume.plantation_id" class="plant-edit-btn" (click)="$event.stopPropagation()">Modifier</a>
+              <span class="plant-etat etat-ok">{{ legume.etat }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ══ Map + Home Assistant ══ -->
+      <!-- ══ MAP & HA ══ -->
       <div class="right-stack">
-
         <div class="card card-map uk-card uk-card-body">
           <h3 class="uk-card-title">Map</h3>
           <div class="external-wrapper">
-            <iframe
-              [src]="link"
-              width="100%"
-              height="100%"
-              style="border: 0;"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <iframe [src]="link" width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
-
         <div class="card card-ha uk-card uk-card-body">
           <h3 class="uk-card-title">Capteurs Home Assistant</h3>
           <div class="external-wrapper"></div>
         </div>
-
       </div>
 
     </div>
   </div>
-
 </div>

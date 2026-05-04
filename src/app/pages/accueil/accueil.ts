@@ -1,129 +1,34 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ServicesConnexion } from '../../services/services-connexion';
-import { environment } from '../../../environments/environment';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-accueil',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './accueil.html',
-  styleUrl: './accueil.scss',
+  templateUrl: './accueil.component.html',
+  styleUrls: ['./accueil.component.scss'],
 })
-export class Accueil implements OnInit {
-  public link: SafeResourceUrl = '';
-  public legumes: any[] = [];
-  public liste_saison: { [key: string]: string } = {};
-  protected user: any;
+export class AccueilComponent implements OnInit {
+  messages: { text: string; isUser: boolean }[] = [];
+  newMessage: string = '';
 
-  // État de l'IA et du Chat
-  public selectedLegume: any = null;
-  public iaLoading = false;
-  public iaError = '';
-  public chatMessages: any[] = [];
-  public userQuestion: string = '';
+  constructor() {}
 
-  // Capteurs simulés pour forcer une réaction de l'IA
-  private capteurs = {
-    humidity: 82,
-    air_humidity: 55,
-    temperature: 24,
-    light_level: 800,
-  };
-
-  constructor(
-    private sanitizer: DomSanitizer,
-    private servicesConnexion: ServicesConnexion,
-    private http: HttpClient,
-    private cd: ChangeDetectorRef,
-  ) {}
-
-  ngOnInit() {
-    this.user = this.servicesConnexion.getUser();
-
-    if (this.user?.adresse) {
-      const adresseFormatee = this.user.adresse.replaceAll(' ', '+');
-      this.link = this.sanitizer.bypassSecurityTrustResourceUrl(
-        'https://maps.google.com/maps?q=' + adresseFormatee + '&t=k&output=embed',
-      );
-    }
-
-    if (this.user?.id) {
-      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${this.user.id}`).subscribe({
-        next: (legumes) => {
-          this.legumes = legumes;
-          this.configurerSaisons();
-
-          if (this.legumes.length > 0) {
-            this.selectedLegume = this.legumes[0];
-            this.analyserPlante();
-          }
-          this.cd.detectChanges();
-        },
-        error: (err) => console.error('Erreur inventaire:', err),
-      });
-    }
-  }
-
-  private configurerSaisons() {
-    for (let legume of this.legumes) {
-      this.liste_saison[legume.id] = legume.saisons?.length > 0 ? legume.saisons.join(', ') : 'Non renseigné';
-    }
-  }
-
-  selectionnerPlante(legume: any) {
-    if (this.selectedLegume?.id === legume.id) return;
-    this.selectedLegume = legume;
-    this.chatMessages = [];
-    this.analyserPlante();
-  }
-
-  analyserPlante() {
-    if (!this.selectedLegume) return;
-    this.iaLoading = true;
-    this.iaError = '';
-
-    const body = { nom: this.selectedLegume.nom, capteurs: this.capteurs };
-
-    this.http.post<any>(`${environment.apiUrl}/api/ia/chat/init`, body).subscribe({
-      next: (res) => {
-        this.chatMessages.push({ role: 'ia', texte: res.message });
-        this.iaLoading = false;
-        this.cd.detectChanges();
-      },
-      error: () => {
-        this.iaError = 'Service IA indisponible.';
-        this.iaLoading = false;
-        this.cd.detectChanges();
-      }
+  ngOnInit(): void {
+    // Petit message de bienvenue local uniquement
+    this.messages.push({
+      text: 'Mode maintenance : le chat est déconnecté du back-end.',
+      isUser: false,
     });
   }
 
-  poserQuestion() {
-    if (!this.userQuestion.trim() || this.iaLoading) return;
+  sendMessage(): void {
+    if (this.newMessage.trim()) {
+      // On affiche ton message dans la bulle
+      this.messages.push({ text: this.newMessage, isUser: true });
 
-    const text = this.userQuestion;
-    this.chatMessages.push({ role: 'user', texte: text });
-    this.userQuestion = '';
-    this.iaLoading = true;
+      // On ajoute une réponse automatique simple pour éviter l'erreur 404/500
+      this.messages.push({ text: 'Le service IA est actuellement en pause.', isUser: false });
 
-    this.http.post<any>(`${environment.apiUrl}/api/ia/chat/question`, {
-      question: text,
-      legume: this.selectedLegume.nom
-    }).subscribe({
-      next: (res) => {
-        this.chatMessages.push({ role: 'ia', texte: res.reponse });
-        this.iaLoading = false;
-        this.cd.detectChanges();
-      },
-      error: () => {
-        this.chatMessages.push({ role: 'ia', texte: "Désolé, une erreur est survenue." });
-        this.iaLoading = false;
-        this.cd.detectChanges();
-      }
-    });
+      this.newMessage = ''; // On vide l'input
+      // AUCUN APPEL API ICI -> Zéro erreur console
+    }
   }
 }

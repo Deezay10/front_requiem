@@ -7,39 +7,20 @@
     <div class="dashboard-main-grid">
 
       <!-- ══ IA CHAT ══ -->
-      <div class="card card-ia uk-card uk-card-body">
-        <div class="ia-card-header">
-          <h3 class="uk-card-title">
-            Analyse IA
-            <span class="ia-plant-name" *ngIf="selectedLegume">— {{ selectedLegume.nom }}</span>
-          </h3>
-          <button class="ia-refresh-btn" (click)="analyserPlante()" [disabled]="iaLoading">
-            <span uk-icon="refresh" [class.uk-spinner]="iaLoading"></span>
-          </button>
-        </div>
+      <div class="accueil-container">
+        <!-- Ton contenu habituel -->
 
+        <!-- La zone de chat que tu veux garder -->
         <div class="chat-container">
-          <div class="chat-window" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-            <div class="ia-error" *ngIf="iaError && !iaLoading">
-              <span uk-icon="warning"></span> {{ iaError }}
-            </div>
-
-            <div *ngFor="let msg of chatMessages" [ngClass]="msg.role">
-              <div class="bubble">
-                <span *ngIf="msg.role === 'ia'">🤖</span> {{ msg.texte }}
-              </div>
-            </div>
-
-            <div class="ia" *ngIf="iaLoading">
-              <div class="bubble">...</div>
+          <div class="chat-window">
+            <div *ngFor="let msg of messages" [ngClass]="{'user-msg': msg.isUser, 'bot-msg': !msg.isUser}">
+              {{ msg.text }}
             </div>
           </div>
 
-          <div class="chat-input-area" *ngIf="selectedLegume">
-            <input [(ngModel)]="userQuestion" (keyup.enter)="poserQuestion()" placeholder="Posez une question...">
-            <button (click)="poserQuestion()" [disabled]="iaLoading || !userQuestion">
-              <span uk-icon="push"></span>
-            </button>
+          <div class="chat-input">
+            <input [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Écrivez ici...">
+            <button (click)="sendMessage()">Envoyer</button>
           </div>
         </div>
       </div>

@@ -1,34 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-accueil',
-  templateUrl: './accueil.html',
-  styleUrls: ['./accueil.scss'],
+  selector: 'app-modifier-plante',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './modifier_plante.html',
+  styleUrls: ['./modifier_plante.scss'],
 })
-export class AccueilComponent implements OnInit {
-  messages: { text: string; isUser: boolean }[] = [];
-  newMessage: string = '';
+export class ModifierPlante implements OnInit {
+  public plantation_id: string = '';
+  public message: string = '';
 
-  constructor() {}
+  editData = {
+    surface_m2: 0,
+    etat: '',
+    date_plantation: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  };
 
-  ngOnInit(): void {
-    // Petit message de bienvenue local uniquement
-    this.messages.push({
-      text: 'Mode maintenance : le chat est déconnecté du back-end.',
-      isUser: false,
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+  ) {}
+
+  public nom_legume: string = '';
+
+  ngOnInit() {
+    this.plantation_id = this.route.snapshot.paramMap.get('plantation_id') || '';
+    this.http.get<any>(`${environment.apiUrl}/plantation/${this.plantation_id}`).subscribe({
+      next: (data) => {
+        this.nom_legume = data.nom;
+        this.editData.surface_m2 = data.surface_m2;
+        this.editData.etat = data.etat;
+        this.editData.date_plantation = data.date_plantation
+          ? data.date_plantation.split('T')[0]
+          : '';
+        this.cd.detectChanges();
+        console.log(this.nom_legume);
+        console.log('Données reçues : ', data);
+      },
+      error: (err) => {
+        console.error('Erreur : ', err);
+      },
     });
   }
 
-  sendMessage(): void {
-    if (this.newMessage.trim()) {
-      // On affiche ton message dans la bulle
-      this.messages.push({ text: this.newMessage, isUser: true });
-
-      // On ajoute une réponse automatique simple pour éviter l'erreur 404/500
-      this.messages.push({ text: 'Le service IA est actuellement en pause.', isUser: false });
-
-      this.newMessage = ''; // On vide l'input
-      // AUCUN APPEL API ICI -> Zéro erreur console
-    }
+  save() {
+    this.http
+      .post(`${environment.apiUrl}/edit_plantation/${this.plantation_id}`, this.editData)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/inventaire']);
+        },
+        error: (err) => {
+          this.message = 'Erreur lors de la modification';
+          console.error(err);
+        },
+      });
   }
 }

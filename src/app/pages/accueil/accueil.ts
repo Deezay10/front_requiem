@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-accueil',
-  templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.scss'],
+  templateUrl: './accueil.html',
+  styleUrls: ['./accueil.scss'],
 })
 export class AccueilComponent implements OnInit {
   messages: { text: string; isUser: boolean }[] = [];

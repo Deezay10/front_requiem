@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/services-connexion';
 
 @Component({
   selector: 'app-inscription',
@@ -46,14 +47,14 @@ export class Inscription {
       mobile: this.user.mobile
     };
 
-    this.http.post('http://localhost:8080/users/register', data).subscribe({
+    this.http.post(`${environment.apiUrl}/users/register`, data).subscribe({
       next: (response) => {
-        this.message = "Inscription réussie !";
+        this.message = 'Inscription réussie !';
         this.router.navigate(['/connexion']);
       },
       error: (err) => {
         this.message = "Erreur lors de l'inscription";
-      }
+      },
     });
   }
 }

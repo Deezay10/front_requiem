@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ServicesConnexion } from '../../services/services-connexion';
+import { environment } from '../../../environments/services-connexion';
 
 @Component({
   selector: 'app-ajout-plantes',
@@ -28,13 +29,13 @@ export class AjoutPlantes {
   ) {}
 
   ngOnInit() {
-    this.http.get<any[]>('http://localhost:8080/legumes').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/legumes`).subscribe({
       next: (legumes) => {
         this.legumes = legumes;
       },
       error: (err) => {
         console.error('Erreur récupération légumes : ', err);
-      }
+      },
     });
   }
 
@@ -42,17 +43,19 @@ export class AjoutPlantes {
     const user = this.servicesConnexion.getUser();
 
     if (!user) {
-      this.message = "Vous devez être connecté";
+      this.message = 'Vous devez être connecté';
       return;
     }
 
-    this.http.post(`http://localhost:8080/add_plantation/users/${user.id}`, this.plantation).subscribe({
-      next: (response) => {
-        this.router.navigate(['/inventaire']);
-      },
-      error: (err) => {
-        this.message = "Plante non trouvée ou erreur lors de l'ajout";
-      }
-    });
+    this.http
+      .post(`${environment.apiUrl}/add_plantation/users/${user.id}`, this.plantation)
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/inventaire']);
+        },
+        error: (err) => {
+          this.message = "Plante non trouvée ou erreur lors de l'ajout";
+        },
+      });
   }
 }

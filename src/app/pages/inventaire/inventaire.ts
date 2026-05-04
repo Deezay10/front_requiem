@@ -6,6 +6,7 @@ import { routes} from '../../app.routes';
 import {Legume} from '../../services/services-inventaire';
 import { ServicesConnexion } from '../../services/services-connexion';
 import { ChangeDetectorRef } from '@angular/core';
+import { environment } from '../../../environments/services-connexion';
 
 declare var UIkit: any;
 
@@ -35,9 +36,9 @@ export class Inventaire implements OnInit {
     console.log("User id : ", this.user.id);
 
     if (this.user) {
-      this.http.get<any[]>(`http://localhost:8080/inventaire/users/${this.user.id}`).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${this.user.id}`).subscribe({
         next: (legumes) => {
-          console.log("Légumes reçus : ", legumes);
+          console.log('Légumes reçus : ', legumes);
           this.legumes = legumes;
 
           for (let legume of this.legumes) {
@@ -53,7 +54,7 @@ export class Inventaire implements OnInit {
         },
         error: (err) => {
           console.error('Erreur récupération légumes : ', err);
-        }
+        },
       });
     }
   }

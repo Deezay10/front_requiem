@@ -24,12 +24,12 @@ export class Connexion {
   login() {
     const data = { email: this.email, motdepasse: this.motdepasse };
 
-    this.http.post('http://localhost:8080/users/login', data).subscribe({
+    this.http.post('${environment.apiUrl}', data).subscribe({
       next: (response: any) => {
         this.servicesConnexion.setUser(response.user);
         this.servicesConnexion.setToken(response.token);
         this.router.navigateByUrl('/inventaire');
-        },
+      },
       error: (err) => {
         this.message = 'Email ou mot de passe incorrect';
       },

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/services-connexion';
 
 @Component({
   selector: 'app-modifier-plante',
@@ -32,32 +33,36 @@ export class ModifierPlante implements OnInit {
   public nom_legume: string = "";
 
   ngOnInit() {
-    this.plantation_id = this.route.snapshot.paramMap.get('plantation_id') || "";
-    this.http.get<any>(`http://localhost:8080/plantation/${this.plantation_id}`).subscribe({
+    this.plantation_id = this.route.snapshot.paramMap.get('plantation_id') || '';
+    this.http.get<any>(`${environment.apiUrl}/plantation/${this.plantation_id}`).subscribe({
       next: (data) => {
         this.nom_legume = data.nom;
         this.editData.surface_m2 = data.surface_m2;
         this.editData.etat = data.etat;
-        this.editData.date_plantation = data.date_plantation ? data.date_plantation.split('T')[0] : '';
+        this.editData.date_plantation = data.date_plantation
+          ? data.date_plantation.split('T')[0]
+          : '';
         this.cd.detectChanges();
         console.log(this.nom_legume);
-        console.log("Données reçues : ", data);
+        console.log('Données reçues : ', data);
       },
       error: (err) => {
-        console.error("Erreur : ", err);
-      }
+        console.error('Erreur : ', err);
+      },
     });
   }
 
   save() {
-    this.http.post(`http://localhost:8080/edit_plantation/${this.plantation_id}`, this.editData).subscribe({
-      next: () => {
-        this.router.navigate(['/inventaire']);
-      },
-      error: (err) => {
-        this.message = "Erreur lors de la modification";
-        console.error(err);
-      }
-    });
+    this.http
+      .post(`${environment.apiUrl}/edit_plantation/${this.plantation_id}`, this.editData)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/inventaire']);
+        },
+        error: (err) => {
+          this.message = 'Erreur lors de la modification';
+          console.error(err);
+        },
+      });
   }
 }

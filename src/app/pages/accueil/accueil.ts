@@ -4,9 +4,8 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ServicesConnexion } from '../../services/services-connexion';
+import { environment } from '../../../environments/services-connexion';
 
-const DJANGO_URL = 'http://10.30.2.249';
-const SPRING_URL = 'http://10.30.2.251:8080';
 
 @Component({
   selector: 'app-accueil',
@@ -57,7 +56,7 @@ export class Accueil implements OnInit {
     }
 
     if (user?.id) {
-      this.http.get<any[]>(`${SPRING_URL}/inventaire/users/${user.id}`).subscribe({
+      this.http.get<any[]>(`${environment.apiUrl}/inventaire/users/${user.id}`).subscribe({
         next: (legumes) => {
           this.legumes = legumes;
 
@@ -115,7 +114,7 @@ export class Accueil implements OnInit {
       capteurs: this.capteurs,
     };
 
-    this.http.post<any>(`${DJANGO_URL}/api/analyze/`, body).subscribe({
+    this.http.post<any>(`$${environment.apiUrl}/api/analyze/`, body).subscribe({
       next: (result) => {
         this.iaResult = result;
         this.iaLoading = false;

@@ -37,6 +37,8 @@ export class Accueil implements OnInit {
     light_level: 800,
   };
 
+  protected user: any;
+
   constructor(
     private sanitizer: DomSanitizer,
     private servicesConnexion: ServicesConnexion,
@@ -46,6 +48,7 @@ export class Accueil implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user = this.servicesConnexion.getUser();
     const user = this.servicesConnexion.getUser();
 
     if (user?.adresse) {

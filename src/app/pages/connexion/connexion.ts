@@ -19,19 +19,22 @@ export class Connexion {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private servicesConnexion: ServicesConnexion
+    private servicesConnexion: ServicesConnexion,
   ) {}
 
   login() {
     const data = { email: this.email, motdepasse: this.motdepasse };
 
-    this.http.post(`${environment.apiUrl}`, data).subscribe({
+    // On ajoute /users/login pour correspondre au @PostMapping de Java
+    this.http.post(`${environment.apiUrl}/users/login`, data).subscribe({
       next: (response: any) => {
+        console.log('Connexion réussie ! Token :', response.token);
         this.servicesConnexion.setUser(response.user);
         this.servicesConnexion.setToken(response.token);
         this.router.navigateByUrl('/inventaire');
       },
       error: (err) => {
+        console.error('Erreur 401 ou autre :', err);
         this.message = 'Email ou mot de passe incorrect';
       },
     });

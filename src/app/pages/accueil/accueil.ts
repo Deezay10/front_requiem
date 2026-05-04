@@ -114,7 +114,7 @@ export class Accueil implements OnInit {
       capteurs: this.capteurs,
     };
 
-    this.http.post<any>(`$${environment.apiUrl}/api/analyze/`, body).subscribe({
+    this.http.post<any>(`$${environment.iaUrl}/api/analyze/`, body).subscribe({
       next: (result) => {
         this.iaResult = result;
         this.iaLoading = false;

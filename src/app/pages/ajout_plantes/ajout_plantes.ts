@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ServicesConnexion } from '../../services/services-connexion';
-import { environment } from '../../../environments/services-connexion';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-ajout-plantes',

@@ -6,7 +6,7 @@ import { routes} from '../../app.routes';
 import {Legume} from '../../services/services-inventaire';
 import { ServicesConnexion } from '../../services/services-connexion';
 import { ChangeDetectorRef } from '@angular/core';
-import { environment } from '../../../environments/services-connexion';
+import { environment } from '../../../environments/environment';
 
 declare var UIkit: any;
 

@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ServicesConnexion } from '../../services/services-connexion';
-import { environment } from '../../../environments/services-connexion';
+import { environment } from '../../../environments/environment';
 
 
 @Component({

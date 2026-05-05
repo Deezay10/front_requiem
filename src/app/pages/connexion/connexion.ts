@@ -31,7 +31,7 @@ export class Connexion {
         console.log('Connexion réussie ! Token :', response.token);
         this.servicesConnexion.setUser(response.user);
         this.servicesConnexion.setToken(response.token);
-        this.router.navigateByUrl('/inventaire');
+        this.router.navigateByUrl('/home');
       },
       error: (err) => {
         console.error('Erreur 401 ou autre :', err);
